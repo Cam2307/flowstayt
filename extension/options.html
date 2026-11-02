@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Focus Blocker settings</title><link rel="stylesheet" href="styles.css"><style>body{max-width:620px;margin:auto;padding:24px}</style></head><body>
+<h1>Focus Blocker settings</h1>
+<div id="gate" hidden><p>Settings are password protected.</p><div class="row"><input id="pw" type="password"><button id="unlock">Unlock</button></div></div>
+<div id="main">
+<h2>Blocked sites</h2>
+<div class="row"><input id="site" placeholder="e.g. instagram.com"><button id="add">Add</button></div>
+<ul id="list"></ul>
+<h2>Stats (last 7 days)</h2><ul id="stats"></ul>
+<div id="proBox">
+<h2>Schedule <span class="pro">PRO</span></h2>
+<label><input type="checkbox" id="schedOn"> Only block during these times</label>
+<div class="row" id="days"></div>
+<div class="row"><input type="time" id="start"> to <input type="time" id="end"><button id="saveSched">Save schedule</button></div>
+<h2>Password lock <span class="pro">PRO</span></h2>
+<div class="row"><input type="password" id="newPw" placeholder="New password (blank = remove)"><button id="setPw">Save password</button></div>
+<h2>Allowlist-only mode <span class="pro">PRO</span></h2><label><input type="checkbox" id="alOn"> Block every site except these</label><div class="row"><input id="alSite" placeholder="e.g. docs.google.com"><button id="alAdd">Allow</button></div><ul id="alList"></ul>
+<h2>Sync across devices <span class="pro">PRO</span></h2><p class="muted">On: blocklist, schedule and allowlist sync through your Chrome sync (Google account). Stats and password stay on this device.</p>
+</div>
+<p id="upsell" class="muted">Pro unlocks schedules, password lock, allowlist mode and sync. <button id="buy">Upgrade</button></p>
+<h2>Developer</h2><label class="muted"><input type="checkbox" id="devPro"> Simulate Pro (testing only; remove before release)</label>
+<p class="muted">Privacy: everything is stored on this device in chrome.storage. No data leaves your device.</p>
+</div>
+<script type="module" src="src/options.js"></script></body></html>

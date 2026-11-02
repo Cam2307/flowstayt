@@ -1,0 +1,26 @@
+# Product spec
+
+## Free (built and working)
+- Blocklist: add from popup (typed or current tab), add/remove in options.
+- Blocking via `chrome.declarativeNetRequest` dynamic rules, redirecting to `blocked.html` with a motivational message.
+- Focus sessions: 25 or 50 minutes (`chrome.alarms`).
+- Daily blocked-attempt stats (last 7 days) in `chrome.storage.local`.
+
+## Pro (gated by `isPro()` in `src/licensing.js`)
+| Feature | Status |
+|---|---|
+| Password lock on settings (SHA-256 hash stored locally) | Working |
+| Schedules: block only on chosen days/times (overnight ranges OK) | Working |
+| Allowlist-only mode: block every site except listed ones | Working |
+| Sync of blocklist, schedule, allowlist via `chrome.storage.sync` (stats/password stay local; last write wins) | Working |
+| Payment / license check | Stub. Use ExtensionPay or Lemon Squeezy |
+
+Note: the password lock protects the options page; the popup can only add sites, not remove them, so it cannot be used to bypass the lock. Disabling the extension in chrome://extensions remains possible (a Chrome limitation; same for competitors).
+
+## Pricing (ASSUMPTION, unvalidated)
+About $3-4/month or about $30/year, optionally a lifetime tier. Positioned below BlockSite. Validate with early users before committing.
+
+## Competitor context (from earlier research, Nov 2026)
+- BlockSite and StayFocusd: about 1.7M users combined.
+- BlockSite charges about $4-15/month and paywalls basics like the password lock; this is a common complaint.
+- Our gap: fair price, generous free tier, privacy (no data leaves the device), no nagging.

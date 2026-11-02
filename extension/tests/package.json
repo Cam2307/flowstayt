@@ -1,0 +1,1 @@
+{ "name": "focus-blocker-tests", "private": true, "scripts": { "test": "node e2e.js" }, "devDependencies": { "puppeteer": "^23.0.0" } }
