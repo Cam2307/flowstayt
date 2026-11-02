@@ -1,0 +1,7 @@
+body{font-family:system-ui,sans-serif;margin:0;padding:14px;color:#1d2433;min-width:300px}
+h1{font-size:18px;margin:0 0 10px}h2{font-size:15px;margin:18px 0 6px}
+input,button,select{font:inherit;padding:6px 8px;border-radius:6px;border:1px solid #c8cfdb}
+button{background:#3056d3;color:#fff;border:none;cursor:pointer}button.secondary{background:#e6e9f0;color:#1d2433}
+ul{list-style:none;padding:0;margin:6px 0}li{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #eee}
+.row{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}.muted{color:#6b7385;font-size:12px}.pro{background:#ffb020;color:#000;border-radius:4px;padding:1px 5px;font-size:11px}
+.locked{opacity:.5;pointer-events:none}

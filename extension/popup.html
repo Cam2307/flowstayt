@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="styles.css"></head><body>
+<h1>Focus Blocker</h1>
+<div class="row"><input id="site" placeholder="e.g. youtube.com"><button id="add">Block</button></div>
+<button id="blockCurrent" class="secondary">Block current site</button>
+<ul id="list"></ul>
+<h2>Focus session</h2>
+<div class="row"><button data-min="25">25 min</button><button data-min="50">50 min</button></div>
+<p id="focus" class="muted"></p>
+<p class="muted">Blocked today: <b id="today">0</b> · <a href="options.html" target="_blank">Settings</a></p>
+<script type="module" src="src/popup.js"></script></body></html>
