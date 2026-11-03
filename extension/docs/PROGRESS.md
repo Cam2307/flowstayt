@@ -39,3 +39,24 @@ Built v0.1.0: full free tier (blocklist, redirect blocking, focus timer, stats),
 - Privacy/terms restyled; only legal text change is the price $29 -> $19.99/year in terms.html.
 - Checked at 1280px and 390px (no horizontal overflow). Screenshots: /workspace/focus-blocker-site-shots/.
 - Blocker: the cursor-github connector has no file-write/commit tool, so neither the site nor the extension/ licensing code has been pushed. Push manually (git or GitHub web upload).
+
+## 3 Nov 2026, 14:10 SAST: store-ready pass (v0.2.0)
+- Version bumped 0.1.0 -> 0.2.0.
+- New icons: dark rounded square with violet gradient focus ring (16/32/48/128 in `icons/`; 32 added to manifest).
+- Store assets in `store/`: 5 screenshots (1280x800, made from the real UI by `tests/store-shots.js`), small promo tile 440x280, marquee 1400x560, `listing.md` (descriptions, category, single purpose, permission justifications, data disclosures, privacy URL).
+- Sync quotas: values over 7000 chars are split into chunks in chrome.storage.sync (`key` = {__chunks:n}, `key#0..`); stale chunks removed. If sync still fails (total 100 KB), lists stay local and Options shows a notice (`syncNotice`). Redirect rules capped at Chrome's 5000 unsafe dynamic rule limit.
+- Tests: 19/19 passed twice (new: 3000-site list chunked under quotas and round-trips; over-quota list stays local with a notice).
+- Licensing: API key is test mode; store has 0 licence keys / orders, and keys can't be created by API. Manual test purchase steps: `docs/TEST-PURCHASE.md`.
+- NOT pushed to GitHub yet.
+
+## 3 Nov 2026, 15:00 SAST: dark UI redesign (v0.2.1)
+- Options, popup and blocked page restyled to match the site (dark #0a0d18, violet #8b7cff accent, system fonts, no remote assets). styles.css rewritten.
+- Options: header with logo + Free/Pro badge, card sections, blocked sites as chips with initials, 7-day bar chart + total, "Unlock Pro" bar and locked Pro cards when free, buy buttons hidden when Pro. All element IDs and storage formats unchanged.
+- Popup: logo header with "blocked today" badge, chips list, big 25/50 buttons. Blocked page: gradient hero.
+- Tests 19/19. Store screenshots regenerated. Before/after: /workspace/fb-ui-shots/.
+
+## 3 Nov 2026, 15:10 SAST: rebrand to FlowStayt (v0.2.2)
+- All user-facing text in the extension, site (titles, meta, OG, privacy/terms entity), store listing and docs renamed to FlowStayt. Blocked page headline: "Stay in flow."
+- Lemon Squeezy instance name now "FlowStayt (Chrome)"; storage keys, store/product checks and checkout URLs unchanged (existing licences keep working).
+- Repo, folders, zip name, site URL and LS subdomain stay focus-blocker for now. TASKS: Cameron to rename the LS store/products.
+- Promo tiles, store screenshots and site/assets screenshots regenerated with the new UI and name.

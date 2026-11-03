@@ -1,5 +1,7 @@
 # Product spec
 
+> Naming: the product is now **FlowStayt**. The GitHub repo, local folders, zip name, site URL (cam2307.github.io/focus-blocker) and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
+
 ## Free (built and working)
 - Blocklist: add from popup (typed or current tab), add/remove in options.
 - Blocking via `chrome.declarativeNetRequest` dynamic rules, redirecting to `blocked.html` with a motivational message.
