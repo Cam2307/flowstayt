@@ -1,5 +1,5 @@
 // End-to-end test: loads the extension unpacked in Chrome for Testing (via Puppeteer) and checks real behaviour.
-// Run from the repository root: cd extension/tests && npm install && xvfb-run -a npm test   (on a desktop, just `npm test`)
+// Run: cd tests && npm install && xvfb-run -a npm test   (on a desktop, just `npm test`)
 const puppeteer = require('puppeteer');
 const http = require('http');
 const path = require('path');
@@ -25,6 +25,24 @@ const assert = (c, m) => { if (!c) throw new Error(m); };
   const ev = (fn, ...a) => sw.evaluate(fn, ...a);
   const page = await browser.newPage();
   page.on('dialog', d => d.accept());
+  // Test-only Lemon Squeezy mock: replaces fetch in extension pages before any script runs.
+  // Scenario comes from localStorage 'lsMock' (set by the test). Real users never get this code.
+  await page.evaluateOnNewDocument(() => {
+    const real = window.fetch;
+    window.fetch = async (u, o) => {
+      if (!String(u).startsWith('https://api.lemonsqueezy.com/')) return real(u, o);
+      const m = localStorage.getItem('lsMock') || 'invalid';
+      const act = String(u).split('/').pop();
+      (window.__lsCalls = window.__lsCalls || []).push(act);
+      const meta = { store_id: 513390, product_id: m === 'wrongproduct' ? 999 : m === 'yearly' ? 1497359 : 1497337 };
+      let body, status = 200;
+      if (act === 'activate') body = m === 'invalid' ? (status = 404, { activated: false, error: 'license_key not found.' })
+        : { activated: true, instance: { id: 'inst-1' }, license_key: { status: 'active' }, meta };
+      else if (act === 'deactivate') body = { deactivated: true, meta };
+      else body = { valid: true, license_key: { status: 'active' }, meta };
+      return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
+    };
+  });
   const visit = async host => { await page.goto(`http://${host}:${port}/`).catch(() => {}); await sleep(400); return page.url(); };
   const opts = async () => { await page.goto(`chrome-extension://${id}/options.html`); await sleep(300); };
   const apply = async () => { await sleep(100); await ev(() => self.applyRules()); }; // resolves once queued rule updates finish
@@ -56,7 +74,7 @@ const assert = (c, m) => { if (!c) throw new Error(m); };
     await ev(async () => { await chrome.storage.local.set({ focusUntil: 0 }); await chrome.alarms.clear('focusEnd'); });
   });
   await test('Pro: password lock gates settings', async () => {
-    await ev(() => chrome.storage.local.set({ devPro: true }));
+    await ev(() => chrome.storage.local.set({ license: { key: 'TEST', instanceId: 'i', valid: true, status: 'active', lastOk: Date.now() } }));
     await opts(); await page.type('#newPw', 'secret1'); await page.click('#setPw'); await sleep(400);
     await opts();
     assert(await page.$eval('#main', e => e.hidden), 'settings not hidden');
@@ -95,10 +113,61 @@ const assert = (c, m) => { if (!c) throw new Error(m); };
     assert(local.blocklist[0] === 'fromotherdevice.test', 'not pulled: ' + JSON.stringify(local));
   });
   await test('Free users do not sync', async () => {
-    await ev(() => chrome.storage.local.set({ devPro: false })); await sleep(200);
+    await ev(() => chrome.storage.local.remove('license')); await sleep(200);
     await ev(() => chrome.storage.local.set({ blocklist: ['freeonly.test'] })); await sleep(500);
     const remote = await ev(() => chrome.storage.sync.get('blocklist'));
     assert(!remote.blocklist.includes('freeonly.test'), 'free user synced');
+  });
+
+  const lic = () => ev(async () => (await chrome.storage.local.get('license')).license || null);
+  const mock = async m => { await opts(); await page.evaluate(m => localStorage.setItem('lsMock', m), m); await opts(); };
+  await test('Licence: free user is gated (Pro box locked, upsell shown)', async () => {
+    await ev(() => chrome.storage.local.remove('license')); await opts();
+    assert(await page.$eval('#proBox', e => e.classList.contains('locked')), 'pro box not locked');
+    assert(!(await page.$eval('#upsell', e => e.hidden)), 'upsell hidden');
+    assert(await page.$eval('#buyMonthly', e => !e.hidden), 'no monthly upgrade button');
+    await page.goto(`chrome-extension://${id}/popup.html`); await sleep(300);
+    assert(!(await page.$eval('#upgrade', e => e.hidden)), 'popup upgrade link hidden');
+  });
+  await test('Licence: invalid key shows an error and stays free', async () => {
+    await mock('invalid'); await page.type('#licKey', 'BAD-KEY'); await page.click('#activate'); await sleep(600);
+    assert((await page.$eval('#licStatus', e => e.textContent)).includes('not found'), 'no error shown');
+    assert(!(await lic()), 'licence stored');
+  });
+  await test('Licence: key for another product is rejected', async () => {
+    await mock('wrongproduct'); await page.type('#licKey', 'OTHER-KEY'); await page.click('#activate'); await sleep(600);
+    assert((await page.$eval('#licStatus', e => e.textContent)).includes('not for Focus Blocker Pro'), 'no wrong-product error');
+    assert(!(await lic()), 'licence stored');
+    assert((await page.evaluate(() => window.__lsCalls)).includes('deactivate'), 'did not release the activation');
+  });
+  await test('Licence: valid key activates and unlocks Pro', async () => {
+    await mock('ok'); await page.type('#licKey', 'GOOD-KEY-1234'); await page.click('#activate'); await sleep(600);
+    const l = await lic();
+    assert(l && l.valid && l.instanceId === 'inst-1', 'licence not stored: ' + JSON.stringify(l));
+    assert(!(await page.$eval('#proBox', e => e.classList.contains('locked'))), 'pro box still locked');
+    assert((await page.$eval('#licStatus', e => e.textContent)).includes('Pro active'), 'status text wrong');
+  });
+  await test('Licence: deactivate returns to free', async () => {
+    await page.click('#deactivate'); await sleep(600);
+    assert(!(await lic()), 'licence still stored');
+    assert(await page.$eval('#proBox', e => e.classList.contains('locked')), 'pro box not locked');
+  });
+  await test('Licence: yearly product key (1497359) unlocks Pro', async () => {
+    await mock('yearly'); await page.type('#licKey', 'YEARLY-KEY-9999'); await page.click('#activate'); await sleep(600);
+    const l = await lic();
+    assert(l && l.valid, 'yearly licence not stored');
+    assert(!(await page.$eval('#proBox', e => e.classList.contains('locked'))), 'pro box still locked');
+    await page.click('#deactivate'); await sleep(600);
+    assert(!(await lic()), 'not deactivated');
+  });
+  await test('Licence: yearly Upgrade button is shown', async () => {
+    await opts(); assert(await page.$eval('#buyYearly', e => !e.hidden), 'yearly button hidden');
+  });
+  await test('Licence: offline grace expires after 7 days', async () => {
+    await ev(() => chrome.storage.local.set({ license: { key: 'K', instanceId: 'i', valid: true, status: 'active', lastOk: Date.now() - 8 * 864e5 } }));
+    await opts();
+    assert(await page.$eval('#proBox', e => e.classList.contains('locked')), 'still Pro after grace');
+    await ev(() => chrome.storage.local.remove('license'));
   });
 
   await browser.close(); server.close();
