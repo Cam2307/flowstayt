@@ -1,165 +1,174 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Focus Blocker — block distracting websites</title>
-  <meta name="description" content="Focus Blocker is a Chrome extension that blocks distracting websites. The blocklist, block-current-site button, 25/50-minute focus sessions, and daily stats are free. Pro adds a password lock, schedules, allowlist-only mode, and sync.">
-  <link rel="icon" href="extension/icons/icon48.png" type="image/png">
-  <link rel="stylesheet" href="site.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Focus Blocker: block distracting websites in Chrome</title>
+<meta name="description" content="Focus Blocker is a Chrome extension that blocks distracting websites. Blocklist, focus sessions and daily stats are free. Pro adds password lock, schedules, allowlist-only mode and sync from $3.99/month or $19.99/year.">
+<meta name="theme-color" content="#0a0d18">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='3' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="index.html">
-        <img src="extension/icons/icon48.png" width="28" height="28" alt="">
-        Focus Blocker
-      </a>
-      <nav class="nav" aria-label="Page">
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-    </div>
-  </header>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span>Focus Blocker</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-sm" href="#pricing">Get Pro</a>
+  </div>
+</header>
 
-  <main>
-    <div class="wrap hero">
-      <div>
-        <h1>Focus Blocker</h1>
-        <p class="pitch">Block distracting websites. No paywall on the basics.</p>
-        <p class="lede">A Chrome extension for the sites you choose to block. The free version is a working blocker: a blocklist, a button for the tab you are on, a 25- or 50-minute focus session, and a count of blocked visits today.</p>
-        <button type="button" class="cta">Coming soon to the Chrome Web Store</button>
-        <p class="hint">The Chrome Web Store listing is not live yet. There is no store page to open.</p>
+<main id="main">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="dot"></span>Chrome extension · Free core, optional Pro</p>
+      <h1>Block the sites that steal your <em>focus</em>.</h1>
+      <p class="lede">Add a site, start a 25-minute session, get your work done. Focus Blocker runs entirely in your browser: no account, no tracking, no paywall on the basics.</p>
+      <div class="cta-row">
+        <span class="btn btn-store" role="button" aria-disabled="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#fff" opacity=".2"/><circle cx="12" cy="12" r="4.2" fill="#fff"/></svg>
+          Chrome Web Store · Coming soon
+        </span>
+        <a class="btn btn-ghost" href="#pricing">See pricing</a>
       </div>
-      <figure class="frame popup-frame">
-        <img src="assets/popup.png" width="360" height="385" alt="Focus Blocker popup listing youtube.com, reddit.com, and instagram.com, with 25- and 50-minute focus buttons, a session in progress, and 7 blocked visits today.">
+      <ul class="trust">
+        <li>No browsing data leaves your device</li>
+        <li>Free forever plan</li>
+        <li>Cancel Pro any time</li>
+      </ul>
+    </div>
+    <div class="hero-visual" aria-hidden="false">
+      <div class="browser">
+        <div class="browser-bar"><span></span><span></span><span></span><div class="url">chrome-extension://focus-blocker/blocked</div></div>
+        <img src="assets/blocked.png" width="640" height="408" alt="Focus Blocker's blocked page: 'Stay focused. You chose to focus. Keep that promise.' shown instead of youtube.com.">
+      </div>
+      <figure class="popup-card">
+        <img src="assets/popup.png" width="360" height="385" alt="Focus Blocker popup with youtube.com, reddit.com and instagram.com blocked, a focus session running and 7 blocked visits today.">
       </figure>
     </div>
+  </div>
+</section>
 
-    <section class="section" aria-labelledby="screens-heading">
-      <div class="wrap">
-        <h2 id="screens-heading">The extension, as it looks</h2>
-        <p class="intro">These are the real screens: the page you get instead of a blocked site, and the settings page with example sites filled in.</p>
-        <div class="gallery">
-          <figure>
-            <div class="frame wide-frame">
-              <img src="assets/blocked.png" width="640" height="408" alt="Blocked page with the heading Stay focused, the line You chose to focus. Keep that promise, and youtube.com is blocked by Focus Blocker.">
-            </div>
-            <figcaption>A blocked visit opens this page instead of the site.</figcaption>
-          </figure>
-          <figure>
-            <div class="options-scroll">
-              <img src="assets/options.png" width="668" height="1091" alt="Focus Blocker settings with a blocklist, seven days of blocked-visit stats, a weekday schedule, password lock, allowlist-only mode, and sync across devices.">
-            </div>
-            <figcaption>Settings hold the list, the last 7 days, and the Pro controls.</figcaption>
-          </figure>
-        </div>
+<section class="section" id="how">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2>Three clicks to a quieter browser.</h2>
+    <ol class="steps">
+      <li><span class="num">1</span><h3>Add your distractions</h3><p>Type a site or hit <b>Block current site</b> on the tab that keeps pulling you in.</p></li>
+      <li><span class="num">2</span><h3>Start a focus session</h3><p>Pick 25 or 50 minutes. Blocked sites redirect to a calm reminder page until it ends.</p></li>
+      <li><span class="num">3</span><h3>See your progress</h3><p>The popup counts today's blocked visits; settings show the last 7 days.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section alt" id="features">
+  <div class="wrap">
+    <p class="kicker">Features</p>
+    <h2>A real blocker for free. Stronger guardrails with Pro.</h2>
+    <div class="feature-split">
+      <div class="shot">
+        <img src="assets/options.png" width="668" height="1091" loading="lazy" alt="Focus Blocker settings page with a blocklist, 7 days of stats, schedule, password lock, allowlist-only mode and sync.">
       </div>
-    </section>
-
-    <section class="section" id="features">
-      <div class="wrap">
-        <h2>Features</h2>
-        <p class="intro">The free extension is the product. Pro adds the controls other blockers charge for before the basics work.</p>
-        <div class="cards">
-          <article class="card">
-            <h3>Free</h3>
-            <ul>
-              <li><strong>Blocklist.</strong> Add a site from the popup or from settings. Visits to it are redirected to the blocked page.</li>
-              <li><strong>Block-current-site button.</strong> Blocks the tab you are on, without typing the address.</li>
-              <li><strong>25/50-minute focus sessions.</strong> Start a session from the popup. Blocking stays on until it ends.</li>
-              <li><strong>Daily blocked-visit stats.</strong> Today’s count is in the popup. Settings shows the last 7 days.</li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Pro <span class="pro-tag">PRO</span></h3>
-            <ul>
-              <li><strong>Password lock.</strong> Settings ask for a password before they can be changed. The popup can add sites, not remove them.</li>
-              <li><strong>Schedules.</strong> Block only on the days and hours you pick, including ranges that run overnight.</li>
-              <li><strong>Allowlist-only mode.</strong> Block every site except the ones you allow.</li>
-              <li><strong>Sync across devices.</strong> Blocklist, schedule, and allowlist sync with Chrome on your Google account. Stats and the password stay on the device.</li>
-            </ul>
-          </article>
-        </div>
+      <div class="table-wrap">
+        <table class="compare">
+          <caption class="sr">Free and Pro features</caption>
+          <thead><tr><th scope="col">Feature</th><th scope="col">Free</th><th scope="col">Pro</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Blocklist<small>Add sites from the popup or settings</small></th><td class="y">Included</td><td class="y">Included</td></tr>
+            <tr><th scope="row">Block current site<small>One click on the tab you're on</small></th><td class="y">Included</td><td class="y">Included</td></tr>
+            <tr><th scope="row">25/50-minute focus sessions</th><td class="y">Included</td><td class="y">Included</td></tr>
+            <tr><th scope="row">Daily blocked-visit stats</th><td class="y">Included</td><td class="y">Included</td></tr>
+            <tr><th scope="row">Password lock<small>Settings need a password to change</small></th><td class="n">Not included</td><td class="y">Included</td></tr>
+            <tr><th scope="row">Schedules<small>Days and hours, overnight ranges too</small></th><td class="n">Not included</td><td class="y">Included</td></tr>
+            <tr><th scope="row">Allowlist-only mode<small>Block everything except what you allow</small></th><td class="n">Not included</td><td class="y">Included</td></tr>
+            <tr><th scope="row">Sync across devices<small>Via Chrome sync on your Google account</small></th><td class="n">Not included</td><td class="y">Included</td></tr>
+          </tbody>
+        </table>
       </div>
-    </section>
-
-    <section class="section" id="pricing">
-      <div class="wrap">
-        <h2>Pricing</h2>
-        <p class="intro">Free stays free. Pro is a subscription, billed by Lemon Squeezy.</p>
-        <div class="prices">
-          <article class="price">
-            <h3>Free</h3>
-            <p class="amount">$0</p>
-            <p class="yearly">No subscription.</p>
-            <ul>
-              <li>Blocklist</li>
-              <li>Block-current-site button</li>
-              <li>25/50-minute focus sessions</li>
-              <li>Daily blocked-visit stats</li>
-            </ul>
-          </article>
-          <article class="price featured">
-            <h3>Pro <span class="pro-tag">PRO</span></h3>
-            <p class="amount">$3.99<span>/month</span></p>
-            <p class="yearly">or $29/year</p>
-            <ul>
-              <li>Password lock</li>
-              <li>Schedules</li>
-              <li>Allowlist-only mode</li>
-              <li>Sync across devices</li>
-            </ul>
-            <p class="fine">Cancel any time. Payments are handled by Lemon Squeezy as merchant of record.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="faq">
-      <div class="wrap">
-        <h2>FAQ</h2>
-        <div class="faq">
-          <article>
-            <h3>Does any browsing data leave the device?</h3>
-            <p>No. No browsing data leaves the device. Focus Blocker collects no browsing history and sells no data. The blocklist, settings, and stats stay in the browser. Blocking is decided on your computer.</p>
-          </article>
-          <article>
-            <h3>Who handles payment?</h3>
-            <p>Payments are handled by Lemon Squeezy as merchant of record. Lemon Squeezy runs checkout, tax, and licence keys. Focus Blocker does not take your card number.</p>
-          </article>
-          <article>
-            <h3>Can I cancel Pro?</h3>
-            <p>Yes. Cancel any time. You keep Pro until the end of the month or year you have already paid for, and the next charge does not happen.</p>
-          </article>
-          <article>
-            <h3>What does sync actually copy?</h3>
-            <p>For Pro, the blocklist, schedule, and allowlist are stored in Chrome sync, tied to your Google account. Daily stats and the settings password stay on that device.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section close">
-      <div class="wrap">
-        <h2>Install</h2>
-        <p class="intro">Focus Blocker will be listed on the Chrome Web Store. Until that listing is public, this site is the product page.</p>
-        <button type="button" class="cta">Coming soon to the Chrome Web Store</button>
-        <p class="hint">The Chrome Web Store listing is not live yet. There is no store page to open.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap footer-row">
-      <p>© 2026 Cameron Reece Allcock</p>
-      <nav class="footer-nav" aria-label="Footer">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="mailto:cameron@thelab.tech">cameron@thelab.tech</a>
-      </nav>
     </div>
-  </footer>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="wrap">
+    <p class="kicker">Pricing</p>
+    <h2>Simple pricing. Free stays free.</h2>
+    <p class="intro">Pro is billed by Lemon Squeezy, our merchant of record. Your licence key arrives by email; paste it into the extension's settings.</p>
+    <div class="prices">
+      <article class="price">
+        <h3>Free</h3>
+        <p class="amount">$0</p>
+        <p class="per">Forever</p>
+        <ul><li>Blocklist</li><li>Block current site</li><li>25/50-minute focus sessions</li><li>Daily stats</li></ul>
+        <span class="btn btn-ghost btn-block" aria-disabled="true">Coming soon to Chrome</span>
+      </article>
+      <article class="price">
+        <h3>Pro Monthly</h3>
+        <p class="amount">$3.99<span>/month</span></p>
+        <p class="per">Billed monthly</p>
+        <ul><li>Everything in Free</li><li>Password lock</li><li>Schedules</li><li>Allowlist-only mode</li><li>Sync across devices</li></ul>
+        <a class="btn btn-block" href="https://focus-blocker.lemonsqueezy.com/checkout/buy/88e0d077-9b7a-4962-a080-2c511aefc942">Buy monthly</a>
+      </article>
+      <article class="price featured">
+        <span class="badge">Best value</span>
+        <h3>Pro Yearly</h3>
+        <p class="amount">$19.99<span>/year</span></p>
+        <p class="per">About $1.67 a month</p>
+        <ul><li>Everything in Free</li><li>Password lock</li><li>Schedules</li><li>Allowlist-only mode</li><li>Sync across devices</li></ul>
+        <a class="btn btn-block" href="https://focus-blocker.lemonsqueezy.com/checkout/buy/235bf292-34a0-496f-ac58-987410512230">Buy yearly</a>
+      </article>
+    </div>
+    <p class="fine">Prices in USD. Cancel any time; you keep Pro until the end of the period you paid for.</p>
+  </div>
+</section>
+
+<section class="section privacy-band">
+  <div class="wrap privacy-inner">
+    <div class="shield" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div>
+    <div>
+      <h2>Private by design.</h2>
+      <p>No analytics, no tracking, no browsing history collected. Your blocklist, settings and stats live in your browser, and blocking decisions happen on your computer. <a href="privacy.html">Read the privacy policy</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap narrow">
+    <p class="kicker">FAQ</p>
+    <h2>Questions, answered.</h2>
+    <div class="faq">
+      <details><summary>Does any browsing data leave my device?</summary><p>No. Focus Blocker collects no browsing history and sells no data. The blocklist, settings and stats stay in your browser.</p></details>
+      <details><summary>Who handles payment?</summary><p>Lemon Squeezy is the merchant of record. It runs checkout, tax and licence keys. Focus Blocker never sees your card number.</p></details>
+      <details><summary>How do I unlock Pro after buying?</summary><p>Lemon Squeezy emails you a licence key. Open Focus Blocker's settings, paste the key under Focus Blocker Pro and click Activate.</p></details>
+      <details><summary>Can I cancel Pro?</summary><p>Yes, any time. You keep Pro until the end of the month or year you already paid for, and you won't be charged again.</p></details>
+      <details><summary>What does sync copy?</summary><p>For Pro, the blocklist, schedule and allowlist sync through Chrome sync on your Google account. Daily stats and the settings password stay on each device.</p></details>
+      <details><summary>When will it be on the Chrome Web Store?</summary><p>Soon. The listing is in review preparation; this page will link to it as soon as it's live.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section final">
+  <div class="wrap final-card">
+    <h2>Get your attention back.</h2>
+    <p>Focus Blocker is coming to the Chrome Web Store. Pro is available now.</p>
+    <div class="cta-row center">
+      <span class="btn btn-store" role="button" aria-disabled="true">Chrome Web Store · Coming soon</span>
+      <a class="btn btn-light" href="#pricing">View Pro plans</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span>Focus Blocker</a>
+    <nav class="footer-nav" aria-label="Footer"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:cameron@thelab.tech">cameron@thelab.tech</a></nav>
+    <p class="copy">© 2026 Cameron Reece Allcock</p>
+  </div>
+</footer>
 </body>
 </html>
