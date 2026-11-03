@@ -16,8 +16,10 @@
 <h2>Allowlist-only mode <span class="pro">PRO</span></h2><label><input type="checkbox" id="alOn"> Block every site except these</label><div class="row"><input id="alSite" placeholder="e.g. docs.google.com"><button id="alAdd">Allow</button></div><ul id="alList"></ul>
 <h2>Sync across devices <span class="pro">PRO</span></h2><p class="muted">On: blocklist, schedule and allowlist sync through your Chrome sync (Google account). Stats and password stay on this device.</p>
 </div>
-<p id="upsell" class="muted">Pro unlocks schedules, password lock, allowlist mode and sync. <button id="buy">Upgrade</button></p>
-<h2>Developer</h2><label class="muted"><input type="checkbox" id="devPro"> Simulate Pro (testing only; remove before release)</label>
+<h2>Focus Blocker Pro</h2>
+<p id="upsell" class="muted">Pro unlocks schedules, password lock, allowlist mode and sync. <button id="buyMonthly">Upgrade: $3.99/month</button> <button id="buyYearly">Upgrade: $19.99/year</button></p>
+<div class="row"><input id="licKey" placeholder="License key from your purchase email"><button id="activate">Activate</button><button id="deactivate" class="secondary">Deactivate</button></div>
+<p id="licStatus" class="muted"></p>
 <p class="muted">Privacy: everything is stored on this device in chrome.storage. No data leaves your device.</p>
 </div>
 <script type="module" src="src/options.js"></script></body></html>
