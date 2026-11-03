@@ -1,13 +1,13 @@
 # Chrome Web Store listing: FlowStayt
 
 **Author / publisher:** Cameron Reece Allcock
-**Name:** FlowStayt: Website Blocker for Deep Work  (41 chars; CWS limit 75)
+**Name:** FlowStayt: Website Blocker for Deep Work  (39 chars; CWS limit 75)
 **Version:** 0.2.2
 **Category:** Productivity → Workflow & Planning (or "Productivity" if sub-categories are not offered)
 **Language:** English
-**Homepage:** https://cam2307.github.io/focus-blocker/
-**Privacy policy URL:** https://cam2307.github.io/focus-blocker/privacy.html
-**Support URL:** https://cam2307.github.io/focus-blocker/
+**Homepage:** https://cam2307.github.io/flowstayt/
+**Privacy policy URL:** https://cam2307.github.io/flowstayt/privacy.html
+**Support URL:** https://cam2307.github.io/flowstayt/
 
 ## Short description (≤132 chars)
 Website blocker for deep work. Block distracting sites, run focus sessions and stay in flow. Private: nothing leaves your device.
