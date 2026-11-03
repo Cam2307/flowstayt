@@ -1,11 +1,10 @@
-<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="styles.css"></head><body>
-<h1>Focus Blocker</h1>
-<div class="row"><input id="site" placeholder="e.g. youtube.com"><button id="add">Block</button></div>
-<button id="blockCurrent" class="secondary">Block current site</button>
-<ul id="list"></ul>
-<h2>Focus session</h2>
-<div class="row"><button data-min="25">25 min</button><button data-min="50">50 min</button></div>
-<p id="focus" class="muted"></p>
-<p class="muted">Blocked today: <b id="today">0</b> · <a href="options.html" target="_blank">Settings</a></p>
-<p id="upgrade" class="muted" hidden><a href="options.html" target="_blank">Upgrade to Pro</a>: schedules, password lock, sync.</p>
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="styles.css"></head><body class="popup">
+<div class="top"><div class="brand"><img src="icons/icon48.png" alt=""><h1>FlowStayt</h1></div><span class="badge" id="todayBadge"><b id="today">0</b> blocked today</span></div>
+<div class="row"><input id="site" placeholder="e.g. youtube.com" aria-label="Site to block"><button id="add">Block</button></div>
+<button id="blockCurrent" class="secondary" style="width:100%">Block current site</button>
+<ul id="list" class="list"></ul>
+<h2 style="margin-top:14px">Focus session</h2>
+<div class="grid"><button data-min="25">25 min</button><button data-min="50">50 min</button></div>
+<p id="focus" class="focusing"></p>
+<div class="foot"><a href="options.html" target="_blank">Settings</a><span id="upgrade" class="muted" hidden><a href="options.html" target="_blank">Upgrade to Pro</a></span></div>
 <script type="module" src="src/popup.js"></script></body></html>

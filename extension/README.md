@@ -1,4 +1,6 @@
-# Focus Blocker (Chrome extension, Manifest V3)
+# FlowStayt (Chrome extension, Manifest V3)
+
+> Naming: the product is now **FlowStayt**. The GitHub repo, local folders, zip name, site URL (cam2307.github.io/focus-blocker) and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
 
 Author: Cameron Reece Allcock
 
@@ -17,7 +19,7 @@ After editing code, click the reload icon on the extension card.
 2. Popup "Blocked today" goes up by 1 per blocked visit. Options shows the last 7 days.
 3. Options: remove the site; the page loads again.
 4. Focus session: click **25 min**; the popup shows "Focusing until ...". (During a session, blocking is forced on even outside a Pro schedule.)
-5. Pro: paste a licence key (Lemon Squeezy test-mode key, or a real purchase) in Options > Focus Blocker Pro > Activate. Set a schedule that excludes the current time and save: blocked sites load. Change it to include now: they are blocked again within a minute.
+5. Pro: paste a licence key (Lemon Squeezy test-mode key, or a real purchase) in Options > FlowStayt Pro > Activate. Set a schedule that excludes the current time and save: blocked sites load. Change it to include now: they are blocked again within a minute.
 6. Pro password: set a password, reopen Options: it asks for the password. Blank password removes it.
 7. Debugging: on `chrome://extensions` click "service worker" on the card for background logs; `chrome.declarativeNetRequest.getDynamicRules()` in that console shows the live rules.
 
@@ -57,10 +59,10 @@ It loads the extension unpacked, serves fake `*.test` sites locally (no internet
 6. Submit for review (usually a few days; broad host access can lengthen it).
 
 ## Privacy note
-Focus Blocker stores your blocklist, settings and daily counts only in your browser (chrome.storage). It does not collect, sell, or transmit browsing data. Pro sync uses your own Google account's Chrome sync for the blocklist, schedule, and allowlist. The public policy is https://cam2307.github.io/focus-blocker/privacy.html .
+FlowStayt stores your blocklist, settings and daily counts only in your browser (chrome.storage). It does not collect, sell, or transmit browsing data. Pro sync uses your own Google account's Chrome sync for the blocklist, schedule, and allowlist. The public policy is https://cam2307.github.io/focus-blocker/privacy.html .
 
 ## Payments (Lemon Squeezy)
-- Store "Focus Blocker" id 513390 (USD). Accepted products: 1497337 (monthly, variant 2332239, $3.99/month) and 1497359 (yearly, variant 2332267, $19.99/year). Licence keys on for both.
+- Store "Focus Blocker" (to be renamed FlowStayt) id 513390 (USD). Accepted products: 1497337 (monthly, variant 2332239, $3.99/month) and 1497359 (yearly, variant 2332267, $19.99/year). Licence keys on for both.
 - Monthly checkout: https://focus-blocker.lemonsqueezy.com/checkout/buy/88e0d077-9b7a-4962-a080-2c511aefc942
 - Yearly checkout: https://focus-blocker.lemonsqueezy.com/checkout/buy/235bf292-34a0-496f-ac58-987410512230
 - The extension uses only the public License API (no secret). Activation checks store and product IDs; licence is revalidated daily with a 7-day offline grace; invalid/expired/disabled revokes Pro. The Simulate Pro toggle has been removed.

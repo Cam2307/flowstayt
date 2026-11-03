@@ -1,25 +1,28 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Focus Blocker settings</title><link rel="stylesheet" href="styles.css"><style>body{max-width:620px;margin:auto;padding:24px}</style></head><body>
-<h1>Focus Blocker settings</h1>
-<div id="gate" hidden><p>Settings are password protected.</p><div class="row"><input id="pw" type="password"><button id="unlock">Unlock</button></div></div>
+<!doctype html><html><head><meta charset="utf-8"><title>FlowStayt settings</title><link rel="stylesheet" href="styles.css"><style>body{max-width:720px;margin:auto;padding:32px 20px 48px}</style></head><body>
+<header class="row" style="justify-content:space-between;margin:0 0 8px"><div class="brand"><img src="icons/icon48.png" alt=""><h1 style="font-size:22px">FlowStayt</h1></div><span id="planBadge" class="badge">Free</span></header>
+<div id="gate" class="card" hidden><h2>Settings are password protected</h2><div class="row"><input id="pw" type="password" aria-label="Password"><button id="unlock">Unlock</button></div></div>
 <div id="main">
-<h2>Blocked sites</h2>
-<div class="row"><input id="site" placeholder="e.g. instagram.com"><button id="add">Add</button></div>
-<ul id="list"></ul>
-<h2>Stats (last 7 days)</h2><ul id="stats"></ul>
+<section class="card"><div class="head"><h2>Blocked sites</h2><span class="muted" id="count"></span></div>
+<div class="row"><input id="site" placeholder="e.g. instagram.com" aria-label="Site to block"><button id="add">Add</button></div>
+<ul id="list" class="chips"></ul></section>
+<section class="card"><div class="head"><h2>Last 7 days</h2><span class="muted">distractions blocked</span></div>
+<div class="total" id="total">0</div><div class="chart" id="stats"></div></section>
+<div id="lockbar" class="lockbar"><div><b>Unlock Pro</b><div class="muted">Schedules, password lock, allowlist mode and sync.</div></div><button id="lockUpgrade">Upgrade</button></div>
 <div id="proBox">
-<h2>Schedule <span class="pro">PRO</span></h2>
+<section class="card"><div class="head"><h2>Schedule <span class="pro">PRO</span></h2></div>
 <label><input type="checkbox" id="schedOn"> Only block during these times</label>
-<div class="row" id="days"></div>
-<div class="row"><input type="time" id="start"> to <input type="time" id="end"><button id="saveSched">Save schedule</button></div>
-<h2>Password lock <span class="pro">PRO</span></h2>
-<div class="row"><input type="password" id="newPw" placeholder="New password (blank = remove)"><button id="setPw">Save password</button></div>
-<h2>Allowlist-only mode <span class="pro">PRO</span></h2><label><input type="checkbox" id="alOn"> Block every site except these</label><div class="row"><input id="alSite" placeholder="e.g. docs.google.com"><button id="alAdd">Allow</button></div><ul id="alList"></ul>
-<h2>Sync across devices <span class="pro">PRO</span></h2><p class="muted">On: blocklist, schedule and allowlist sync through your Chrome sync (Google account). Stats and password stay on this device.</p>
+<div class="row days" id="days"></div>
+<div class="row"><input type="time" id="start" aria-label="Start"> <span class="muted">to</span> <input type="time" id="end" aria-label="End"><button id="saveSched">Save schedule</button></div></section>
+<section class="card"><div class="head"><h2>Password lock <span class="pro">PRO</span></h2></div>
+<div class="row"><input type="password" id="newPw" placeholder="New password (blank = remove)" aria-label="New password"><button id="setPw">Save password</button></div></section>
+<section class="card"><div class="head"><h2>Allowlist-only mode <span class="pro">PRO</span></h2></div><label><input type="checkbox" id="alOn"> Block every site except these</label><div class="row"><input id="alSite" placeholder="e.g. docs.google.com" aria-label="Site to allow"><button id="alAdd">Allow</button></div><ul id="alList" class="chips"></ul></section>
+<section class="card"><div class="head"><h2>Sync across devices <span class="pro">PRO</span></h2></div><p class="muted" style="margin:6px 0 0">Blocklist, schedule and allowlist sync through your Chrome sync (Google account). Stats and password stay on this device.</p><p id="syncNotice" class="muted" hidden></p></section>
 </div>
-<h2>Focus Blocker Pro</h2>
-<p id="upsell" class="muted">Pro unlocks schedules, password lock, allowlist mode and sync. <button id="buyMonthly">Upgrade: $3.99/month</button> <button id="buyYearly">Upgrade: $19.99/year</button></p>
-<div class="row"><input id="licKey" placeholder="License key from your purchase email"><button id="activate">Activate</button><button id="deactivate" class="secondary">Deactivate</button></div>
-<p id="licStatus" class="muted"></p>
-<p class="muted">Privacy: everything is stored on this device in chrome.storage. No data leaves your device.</p>
+<section class="card"><div class="head"><h2>FlowStayt Pro</h2></div>
+<p id="upsell" class="muted">Pro unlocks schedules, password lock, allowlist mode and sync.</p>
+<div class="row" id="buyRow"><button id="buyMonthly">$3.99 / month</button><button id="buyYearly" class="secondary">$19.99 / year · save 58%</button></div>
+<div class="row"><input id="licKey" placeholder="License key from your purchase email" aria-label="License key"><button id="activate">Activate</button><button id="deactivate" class="secondary">Deactivate</button></div>
+<p id="licStatus" class="muted"></p></section>
+<p class="muted" style="text-align:center">Private: everything is stored on this device in chrome.storage. No data leaves your device.</p>
 </div>
 <script type="module" src="src/options.js"></script></body></html>
