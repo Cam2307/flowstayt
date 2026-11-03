@@ -5,10 +5,12 @@ async function render() {
   const s = await getState();
   $('list').innerHTML = '';
   for (const d of s.blocklist) {
-    const li = document.createElement('li'); li.textContent = d;
+    const li = document.createElement('li'), i = document.createElement('span'), t = document.createElement('span');
+    i.className = 'ini'; i.textContent = d[0]; t.textContent = d; li.append(i, t);
     // Removing is done from the options page so the Pro password lock can protect it.
     $('list').append(li);
   }
+  if (!s.blocklist.length) $('list').innerHTML = '<li class="muted" style="border:0">No blocked sites yet.</li>';
   $('upgrade').hidden = await isPro();
   $('today').textContent = s.stats[todayKey()] || 0;
   $('focus').textContent = s.focusUntil > Date.now() ? 'Focusing until ' + new Date(s.focusUntil).toLocaleTimeString() : '';

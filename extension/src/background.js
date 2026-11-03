@@ -22,10 +22,12 @@ async function applyRulesNow() {
     addRules.push({ id: 1, priority: 1,
       action: { type: 'redirect', redirect: { extensionPath: '/blocked.html?d=allowlist' } },
       condition: { regexFilter: '^https?://', resourceTypes: ['main_frame'] } });
-    s.allowlist.forEach((d, i) => addRules.push({ id: i + 2, priority: 2, action: { type: 'allow' },
+    s.allowlist.slice(0, 4000).forEach((d, i) => addRules.push({ id: i + 2, priority: 2, action: { type: 'allow' },
       condition: { requestDomains: [d], resourceTypes: ['main_frame'] } }));
   } else if (active) {
-    addRules = s.blocklist.map((d, i) => ({
+    // Chrome caps redirect ("unsafe") dynamic rules at 5000; extra entries are ignored rather than failing the whole update.
+    const cap = chrome.declarativeNetRequest.MAX_NUMBER_OF_UNSAFE_DYNAMIC_RULES || 5000;
+    addRules = s.blocklist.slice(0, cap).map((d, i) => ({
       id: i + 1, priority: 1,
       action: { type: 'redirect', redirect: { extensionPath: '/blocked.html?d=' + encodeURIComponent(d) } },
       condition: { urlFilter: '||' + d, resourceTypes: ['main_frame'] }
@@ -69,18 +71,57 @@ chrome.runtime.onMessage.addListener((msg, _s, reply) => {
 
 // Pro sync: settings are mirrored to chrome.storage.sync (Chrome's own sync, via the user's Google account).
 // Stats and the password hash stay local. Last write wins; JSON comparison prevents ping-pong loops.
+// Quotas: 8192 bytes per item, 102400 total, 512 items. Large values are split into chunks
+// ("blocklist" = {__chunks:n}, "blocklist#0".."blocklist#n-1"). If a write still fails (total quota),
+// settings stay on this device and local "syncNotice" explains why (shown in Options).
 const SYNC_KEYS = ['blocklist', 'schedule', 'allowlistMode', 'allowlist'];
+export const CHUNK = 7000; // chars per chunk; leaves headroom under 8192 bytes for key + JSON quoting
+const ckey = (k, i) => k + '#' + i;
+export async function syncWrite(key, value) {
+  const json = JSON.stringify(value);
+  const prev = await chrome.storage.sync.get(key);
+  const oldN = prev[key]?.__chunks || 0;
+  let items;
+  if (json.length <= CHUNK) items = { [key]: value };
+  else {
+    const n = Math.ceil(json.length / CHUNK); items = {};
+    for (let i = 0; i < n; i++) items[ckey(key, i)] = json.slice(i * CHUNK, (i + 1) * CHUNK);
+    items[key] = { __chunks: n };
+  }
+  await chrome.storage.sync.set(items); // throws on quota errors
+  const n = items[key]?.__chunks || 0, stale = [];
+  for (let i = n; i < oldN; i++) stale.push(ckey(key, i));
+  if (stale.length) await chrome.storage.sync.remove(stale);
+}
+export async function syncRead(keys) {
+  const raw = await chrome.storage.sync.get(keys), out = {};
+  for (const k of keys) {
+    if (!(k in raw)) continue;
+    const v = raw[k];
+    if (v && typeof v === 'object' && v.__chunks) {
+      const parts = await chrome.storage.sync.get([...Array(v.__chunks).keys()].map(i => ckey(k, i)));
+      try { out[k] = JSON.parse([...Array(v.__chunks).keys()].map(i => parts[ckey(k, i)] ?? '').join('')); } catch {} // partial sync in flight: skip
+    } else out[k] = v;
+  }
+  return out;
+}
 async function pushSync() {
   if (!(await isPro())) return;
-  const local = await chrome.storage.local.get(SYNC_KEYS), remote = await chrome.storage.sync.get(SYNC_KEYS);
-  const diff = Object.fromEntries(SYNC_KEYS.filter(k => k in local && JSON.stringify(local[k]) !== JSON.stringify(remote[k])).map(k => [k, local[k]]));
-  if (Object.keys(diff).length) await chrome.storage.sync.set(diff);
+  const local = await chrome.storage.local.get(SYNC_KEYS), remote = await syncRead(SYNC_KEYS);
+  const keys = SYNC_KEYS.filter(k => k in local && JSON.stringify(local[k]) !== JSON.stringify(remote[k]));
+  try {
+    for (const k of keys) await syncWrite(k, local[k]);
+    const { syncNotice } = await chrome.storage.local.get('syncNotice');
+    if (syncNotice) await chrome.storage.local.remove('syncNotice');
+  } catch (e) {
+    await chrome.storage.local.set({ syncNotice: 'Your lists are too large for Chrome sync, so they are saved on this device only. Blocking still works. (' + (e?.message || e) + ')' });
+  }
 }
 export async function pullSync() {
   if (!(await isPro())) return;
-  const local = await chrome.storage.local.get(SYNC_KEYS), remote = await chrome.storage.sync.get(SYNC_KEYS);
+  const local = await chrome.storage.local.get(SYNC_KEYS), remote = await syncRead(SYNC_KEYS);
   const diff = Object.fromEntries(SYNC_KEYS.filter(k => k in remote && JSON.stringify(local[k]) !== JSON.stringify(remote[k])).map(k => [k, remote[k]]));
   if (Object.keys(diff).length) await chrome.storage.local.set(diff);
 }
 chrome.runtime.onStartup.addListener(pullSync);
-self.applyRules = applyRules; self.pullSync = pullSync; // exposed for tests/e2e.js
+self.applyRules = applyRules; self.pullSync = pullSync; self.syncRead = syncRead; // exposed for tests/e2e.js

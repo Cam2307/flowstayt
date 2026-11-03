@@ -5,32 +5,40 @@ const DAY = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 async function render() {
   const s = await getState(), pro = await isPro();
+  const chip = (ul, d, onRemove) => {
+    const li = document.createElement('li'), i = document.createElement('span'), t = document.createElement('span');
+    i.className = 'ini'; i.textContent = d[0]; t.textContent = d;
+    const b = document.createElement('button'); b.textContent = '×'; b.title = 'Remove ' + d; b.setAttribute('aria-label', 'Remove ' + d);
+    b.onclick = onRemove; li.append(i, t, b); ul.append(li);
+  };
   $('list').innerHTML = '';
-  s.blocklist.forEach(d => {
-    const li = document.createElement('li'); li.textContent = d;
-    const b = document.createElement('button'); b.textContent = 'Remove'; b.className = 'secondary';
-    b.onclick = async () => { await chrome.storage.local.set({ blocklist: s.blocklist.filter(x => x !== d) }); render(); };
-    li.append(b); $('list').append(li);
-  });
+  s.blocklist.forEach(d => chip($('list'), d, async () => { await chrome.storage.local.set({ blocklist: s.blocklist.filter(x => x !== d) }); render(); }));
+  if (!s.blocklist.length) $('list').innerHTML = '<li class="empty" style="border:0;background:none">No sites yet. Add one above.</li>';
+  $('count').textContent = s.blocklist.length + (s.blocklist.length === 1 ? ' site' : ' sites');
+  const days = [...Array(7)].map((_, i) => { const d = new Date(Date.now() - (6 - i) * 864e5); return { d, n: s.stats[todayKey(d)] || 0 }; });
+  const max = Math.max(1, ...days.map(x => x.n));
+  $('total').textContent = days.reduce((a, x) => a + x.n, 0);
   $('stats').innerHTML = '';
-  for (let i = 0; i < 7; i++) {
-    const k = todayKey(new Date(Date.now() - i * 864e5));
-    const li = document.createElement('li'); li.textContent = `${k}: ${s.stats[k] || 0} blocked`; $('stats').append(li);
-  }
+  days.forEach((x, i) => {
+    const el = document.createElement('div'); el.className = 'bar' + (i === 6 ? ' today' : '');
+    el.title = todayKey(x.d) + ': ' + x.n + ' blocked';
+    el.innerHTML = `<b>${x.n}</b><i style="height:${Math.round(x.n / max * 70)}%"></i><span>${i === 6 ? 'Today' : DAY[x.d.getDay()]}</span>`;
+    $('stats').append(el);
+  });
   $('alOn').checked = s.allowlistMode; $('alList').innerHTML = '';
   s.allowlist.forEach(d => {
-    const li = document.createElement('li'); li.textContent = d;
-    const b = document.createElement('button'); b.textContent = 'Remove'; b.className = 'secondary';
-    b.onclick = async () => { await chrome.storage.local.set({ allowlist: s.allowlist.filter(x => x !== d) }); render(); };
-    li.append(b); $('alList').append(li);
+    chip($('alList'), d, async () => { await chrome.storage.local.set({ allowlist: s.allowlist.filter(x => x !== d) }); render(); });
   });
-  $('proBox').classList.toggle('locked', !pro); $('upsell').hidden = pro;
+  const { syncNotice } = await chrome.storage.local.get('syncNotice');
+  $('syncNotice').hidden = !syncNotice; $('syncNotice').textContent = syncNotice || '';
+  $('proBox').classList.toggle('locked', !pro); $('upsell').hidden = pro; $('lockbar').hidden = pro; $('buyRow').hidden = pro;
+  $('planBadge').textContent = pro ? 'Pro active' : 'Free'; $('planBadge').classList.toggle('on', pro);
   const lic = await getLicense();
   $('licKey').hidden = $('activate').hidden = !!lic; $('deactivate').hidden = !lic;
   if (!$('licStatus').dataset.err) $('licStatus').textContent = !lic ? 'Free version. Have a key? Paste it above.'
     : pro ? 'Pro active (key ending ' + lic.key.slice(-4) + ').' : 'License ' + (lic.status || 'invalid') + '. Pro is locked.';
   $('licStatus').dataset.err = '';
-  $('buyYearly').hidden = !LS.checkout.yearly;
+  $('buyYearly').hidden = !LS.checkout.yearly; $('buyMonthly').hidden = false;
   $('schedOn').checked = s.schedule.enabled; $('start').value = s.schedule.start; $('end').value = s.schedule.end;
   $('days').innerHTML = DAY.map((n, i) => `<label><input type="checkbox" value="${i}" ${s.schedule.days.includes(i) ? 'checked' : ''}> ${n}</label>`).join('');
 }
@@ -58,6 +66,7 @@ $('setPw').onclick = async () => {
   $('newPw').value = ''; alert(v ? 'Password set' : 'Password removed');
 };
 $('buyMonthly').onclick = () => window.open(LS.checkout.monthly, '_blank');
+$('lockUpgrade').onclick = () => $('buyMonthly').scrollIntoView({ behavior: 'smooth', block: 'center' });
 $('buyYearly').onclick = () => window.open(LS.checkout.yearly, '_blank');
 $('activate').onclick = async () => {
   $('activate').disabled = true; $('licStatus').textContent = 'Checking...';

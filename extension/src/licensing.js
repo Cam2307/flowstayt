@@ -34,14 +34,14 @@ export async function activate(key) {
   key = (key || '').trim();
   if (!key) return { ok: false, error: 'Enter your license key.' };
   let res;
-  try { res = await call('activate', { license_key: key, instance_name: 'Focus Blocker (Chrome)' }); }
+  try { res = await call('activate', { license_key: key, instance_name: 'FlowStayt (Chrome)' }); }
   catch { return { ok: false, error: 'Could not reach Lemon Squeezy. Check your connection and try again.' }; }
   const { j } = res;
   if (!j.activated) return { ok: false, error: j.error || 'That license key is not valid.' };
   if (!ours(j.meta)) {
     // Valid key for some other product: release the slot we just took, then refuse.
     try { await call('deactivate', { license_key: key, instance_id: j.instance?.id }); } catch {}
-    return { ok: false, error: 'This key is not for Focus Blocker Pro.' };
+    return { ok: false, error: 'This key is not for FlowStayt Pro.' };
   }
   await chrome.storage.local.set({ license: { key, instanceId: j.instance.id, valid: true, status: j.license_key?.status || 'active', lastOk: Date.now() } });
   return { ok: true };
