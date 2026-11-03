@@ -112,6 +112,31 @@ const assert = (c, m) => { if (!c) throw new Error(m); };
     const local = await ev(() => chrome.storage.local.get('blocklist'));
     assert(local.blocklist[0] === 'fromotherdevice.test', 'not pulled: ' + JSON.stringify(local));
   });
+  await test('Pro sync: large block list (3000 sites) is chunked under quotas and round-trips', async () => {
+    const big = Array.from({ length: 3000 }, (_, i) => 'site' + i + '.example.com');
+    await ev(b => chrome.storage.local.set({ blocklist: b }), big); await sleep(1500);
+    const r = await ev(async () => {
+      const all = await chrome.storage.sync.get(null);
+      const maxItem = Math.max(...Object.entries(all).map(([k, v]) => k.length + JSON.stringify(v).length));
+      return { maxItem, n: Object.keys(all).length, bytes: await chrome.storage.sync.getBytesInUse(null),
+        back: (await self.syncRead(['blocklist'])).blocklist, notice: (await chrome.storage.local.get('syncNotice')).syncNotice };
+    });
+    assert(r.maxItem <= 8192 && r.n <= 512 && r.bytes <= 102400, 'quota exceeded: ' + JSON.stringify({ maxItem: r.maxItem, n: r.n, bytes: r.bytes }));
+    assert(r.back && r.back.length === 3000 && r.back[2999] === 'site2999.example.com', 'did not round-trip');
+    assert(!r.notice, 'unexpected notice: ' + r.notice);
+    await ev(() => chrome.storage.local.set({ blocklist: ['distract.test'] })); await sleep(800);
+    const left = await ev(async () => Object.keys(await chrome.storage.sync.get(null)).filter(k => k.startsWith('blocklist#')).length);
+    assert(left === 0, 'stale chunks left: ' + left);
+  });
+  await test('Pro sync: over-quota list stays local with a notice', async () => {
+    const huge = Array.from({ length: 9000 }, (_, i) => 'verylongdomainname-' + i + '.example.com');
+    await ev(b => chrome.storage.local.set({ blocklist: b }), huge); await sleep(1500);
+    const n = await ev(async () => (await chrome.storage.local.get('syncNotice')).syncNotice);
+    assert(n && n.includes('too large'), 'no notice');
+    await opts(); assert(!(await page.$eval('#syncNotice', e => e.hidden)), 'notice not shown in options');
+    await ev(() => chrome.storage.local.set({ blocklist: ['distract.test'] })); await sleep(1000);
+    assert(!(await ev(async () => (await chrome.storage.local.get('syncNotice')).syncNotice)), 'notice not cleared');
+  });
   await test('Free users do not sync', async () => {
     await ev(() => chrome.storage.local.remove('license')); await sleep(200);
     await ev(() => chrome.storage.local.set({ blocklist: ['freeonly.test'] })); await sleep(500);
@@ -136,7 +161,7 @@ const assert = (c, m) => { if (!c) throw new Error(m); };
   });
   await test('Licence: key for another product is rejected', async () => {
     await mock('wrongproduct'); await page.type('#licKey', 'OTHER-KEY'); await page.click('#activate'); await sleep(600);
-    assert((await page.$eval('#licStatus', e => e.textContent)).includes('not for Focus Blocker Pro'), 'no wrong-product error');
+    assert((await page.$eval('#licStatus', e => e.textContent)).includes('not for FlowStayt Pro'), 'no wrong-product error');
     assert(!(await lic()), 'licence stored');
     assert((await page.evaluate(() => window.__lsCalls)).includes('deactivate'), 'did not release the activation');
   });
