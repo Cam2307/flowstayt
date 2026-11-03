@@ -13,13 +13,15 @@
 - [x] Handoff docs
 - [x] Pro: allowlist-only mode
 - [x] Pro: sync via `chrome.storage.sync`
-- [x] Automated e2e test (`tests/e2e.js`), 9/9 passing in Chrome for Testing
+- [x] Automated e2e test (`tests/e2e.js`), now 17/17 passing (3 consecutive runs) in Chrome for Testing
 - [x] Fixed race in rule updates (duplicate rule ID); 5/5 consecutive runs pass 9/9
 
 ## To do
 - [ ] Quick manual check in branded Chrome stable (README "How to test"); automated tests already pass in Chrome for Testing
-- [ ] Payments (needs Cameron to create an ExtensionPay or Lemon Squeezy account): pick ExtensionPay or Lemon Squeezy, implement in `src/licensing.js` and the Upgrade button in `src/options.js`
-- [ ] Remove the "Simulate Pro" developer toggle (options.html/options.js) or hide it behind a dev build
+- [x] Payments: Lemon Squeezy licensing (monthly $3.99 product 1497337, yearly $19.99 product 1497359), licence UI + Upgrade buttons in options, upgrade link in popup
+- [ ] Real purchase test with a Lemon Squeezy test-mode key in regular Chrome
+- [ ] Push `site/` (dark redesign) to repo root and the extension code to `extension/`
+- [x] Removed the "Simulate Pro" developer toggle
 - [ ] Sync: handle quota errors gracefully (chrome.storage.sync ~100KB total, 8KB per item)
 - [ ] Real icons (16/48/128) and branding/name check for trademark clashes
 - [ ] Store listing: descriptions, keywords, 440x280 promo tile

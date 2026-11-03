@@ -19,10 +19,23 @@ Built v0.1.0: full free tier (blocklist, redirect blocking, focus timer, stats),
 
 **Exact next step:** unchanged. Payments, once Cameron creates an ExtensionPay or Lemon Squeezy account.
 
-## 2 Nov 2026, 15:10 SAST
-- Moved the extension into `extension/` so the repository root can serve the public site. Updated paths in `extension/README.md`, `extension/docs/DISTRIBUTION.md`, and the test run comment: load the unpacked extension from `extension/`, run tests with `cd extension/tests`, privacy policy at https://cam2307.github.io/focus-blocker/privacy.html .
-- Added the static site at the repository root: `index.html` (product, screenshots of the real popup, blocked page, and settings, features, pricing, FAQ), `privacy.html`, `terms.html`, `site.css`, and empty `.nojekyll`. No build step.
-- Privacy policy and terms are effective 2 November 2026. Contact is cameron@thelab.tech. Payments and refunds are described as Lemon Squeezy, the merchant of record. The store button is labelled “Coming soon to the Chrome Web Store” and does not link to a listing.
-- `extension/.gitignore` ignores `node_modules/`.
+## 3 Nov 2026, 11:30 SAST: real Lemon Squeezy licensing
+- Lemon Squeezy (read via API): store "Focus Blocker" id **513390**, currency **USD**, https://focus-blocker.lemonsqueezy.com. Product "Focus Blocker Pro" id **1497337**, status published. Only ONE variant exists: id **2332239**, $3.99/month subscription, licence keys ON. Checkout: https://focus-blocker.lemonsqueezy.com/checkout/buy/88e0d077-9b7a-4962-a080-2c511aefc942. **No $19.99/year variant yet.**
+- `src/licensing.js`: public License API (no secret). Activate checks meta.store_id/product_id (wrong product is released and refused). Stores `{key, instanceId, valid, status, lastOk}` in chrome.storage.local `license`. Daily `license` alarm revalidates; network errors keep Pro for 7 days since last good check; invalid/expired/disabled revokes.
+- Options: licence field, Activate/Deactivate, status text, Upgrade buttons (yearly hidden until URL set). Popup: upgrade link for free users. Simulate Pro removed.
+- Tests: Lemon Squeezy mocked by stubbing `fetch` via Puppeteer `evaluateOnNewDocument` (no user-reachable override). 15/15 passed, 3 runs in a row.
+- The Lemon Squeezy API key lives only in Cameron's Lemon Squeezy dashboard (Settings > API); it is never in this repo or the extension, and the extension does not need it.
 
-**Exact next step:** enable GitHub Pages (Settings > Pages > Deploy from a branch > main, / (root)). Product work after that is still payments: once Cameron creates a Lemon Squeezy account, implement the check in `src/licensing.js` and remove the Simulate Pro toggle.
+**Exact next step:** Cameron adds the yearly variant; set `LS.checkout.yearly`. Then real icons, store screenshots, manual run in regular Chrome with a test-mode key, Chrome Web Store submission once Google verifies him.
+
+## 3 Nov 2026, 11:10 SAST: yearly plan
+- Yearly is a SEPARATE product: product **1497359**, variant **2332267**, $19.99/year subscription, licence keys on. Checkout: https://focus-blocker.lemonsqueezy.com/checkout/buy/235bf292-34a0-496f-ac58-987410512230
+- Monthly unchanged: product 1497337 / variant 2332239, $3.99/month.
+- `LS.productIds` accepts both; store 513390 still required. Yearly Upgrade button now shown. Prices changed $29 -> $19.99/year everywhere. Tests: 17/17, 3 runs.
+
+## 3 Nov 2026, 11:20 SAST: landing site redesign (local only, NOT yet pushed)
+- Full copy of the site lives in `site/` (index.html, privacy.html, terms.html, site.css, assets/). To publish, copy these files to the repo root of Cam2307/focus-blocker (GitHub Pages serves main, /).
+- Dark, restrained theme, one accent (#8b7cff; buttons #6a58e8, white text 5.0:1, muted text 8.4:1). Sections: hero with framed real screenshots, how it works, Free vs Pro table, pricing cards (Free / $3.99 month / $19.99 year with real Lemon Squeezy checkouts), privacy band, FAQ, footer. Chrome Web Store button still "Coming soon" (no link). No testimonials/counts.
+- Privacy/terms restyled; only legal text change is the price $29 -> $19.99/year in terms.html.
+- Checked at 1280px and 390px (no horizontal overflow). Screenshots: /workspace/focus-blocker-site-shots/.
+- Blocker: the cursor-github connector has no file-write/commit tool, so neither the site nor the extension/ licensing code has been pushed. Push manually (git or GitHub web upload).

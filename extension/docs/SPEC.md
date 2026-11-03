@@ -13,12 +13,12 @@
 | Schedules: block only on chosen days/times (overnight ranges OK) | Working |
 | Allowlist-only mode: block every site except listed ones | Working |
 | Sync of blocklist, schedule, allowlist via `chrome.storage.sync` (stats/password stay local; last write wins) | Working |
-| Payment / license check | Stub. Use ExtensionPay or Lemon Squeezy |
+| Payment / license check | Working: Lemon Squeezy License API (store 513390; products 1497337 monthly, 1497359 yearly), daily revalidation, 7-day offline grace |
 
 Note: the password lock protects the options page; the popup can only add sites, not remove them, so it cannot be used to bypass the lock. Disabling the extension in chrome://extensions remains possible (a Chrome limitation; same for competitors).
 
 ## Pricing (ASSUMPTION, unvalidated)
-About $3-4/month or about $30/year, optionally a lifetime tier. Positioned below BlockSite. Validate with early users before committing.
+Pro: $3.99/month or $19.99/year via Lemon Squeezy (merchant of record). Positioned below BlockSite.
 
 ## Competitor context (from earlier research, Nov 2026)
 - BlockSite and StayFocusd: about 1.7M users combined.
