@@ -1,10 +1,10 @@
 # FlowStayt (Chrome extension, Manifest V3)
 
-> Naming: the product is now **FlowStayt**. The GitHub repo, local folders, zip name, site URL (cam2307.github.io/focus-blocker) and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
+> Naming: the product is now **FlowStayt**. The GitHub repo is now `Cam2307/flowstayt` (site: https://cam2307.github.io/flowstayt/). The local folder, zip name and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
 
 Author: Cameron Reece Allcock
 
-This folder is `extension/` in the repository. The public site (landing page, privacy policy, terms) is the repository root and is published at https://cam2307.github.io/focus-blocker/ .
+This folder is `extension/` in the repository. The public site (landing page, privacy policy, terms) is the repository root and is published at https://cam2307.github.io/flowstayt/ .
 
 A freemium website blocker for focused work. The free tier is a full blocker; Pro adds the features competitors paywall (password lock, schedules, allowlist mode, sync). Plain JS/HTML/CSS: no build step, no dependencies. No data leaves the device.
 
@@ -55,11 +55,11 @@ It loads the extension unpacked, serves fake `*.test` sites locally (no internet
 2. Bump `version` in `manifest.json`.
 3. Zip the folder contents excluding `tests/`, `docs/` and `.gitignore` (manifest.json at the zip root) and upload as a new item.
 4. Listing assets: 128x128 icon, at least one 1280x800 (or 640x400) screenshot, a 440x280 small promo tile, short + full description, category Productivity.
-5. Privacy tab: single-purpose statement ("Blocks websites the user chooses to help them focus"); justify each permission (storage = save settings; declarativeNetRequest = block/redirect sites; alarms = focus timer and schedules; host permissions = required to redirect any user-chosen site); data usage: declare that no user data is collected or transmitted; privacy policy URL: https://cam2307.github.io/focus-blocker/privacy.html (source: `privacy.html` at the repository root).
+5. Privacy tab: single-purpose statement ("Blocks websites the user chooses to help them focus"); justify each permission (storage = save settings; declarativeNetRequest = block/redirect sites; alarms = focus timer and schedules; host permissions = required to redirect any user-chosen site); data usage: declare that no user data is collected or transmitted; privacy policy URL: https://cam2307.github.io/flowstayt/privacy.html (source: `privacy.html` at the repository root).
 6. Submit for review (usually a few days; broad host access can lengthen it).
 
 ## Privacy note
-FlowStayt stores your blocklist, settings and daily counts only in your browser (chrome.storage). It does not collect, sell, or transmit browsing data. Pro sync uses your own Google account's Chrome sync for the blocklist, schedule, and allowlist. The public policy is https://cam2307.github.io/focus-blocker/privacy.html .
+FlowStayt stores your blocklist, settings and daily counts only in your browser (chrome.storage). It does not collect, sell, or transmit browsing data. Pro sync uses your own Google account's Chrome sync for the blocklist, schedule, and allowlist. The public policy is https://cam2307.github.io/flowstayt/privacy.html .
 
 ## Payments (Lemon Squeezy)
 - Store "Focus Blocker" (to be renamed FlowStayt) id 513390 (USD). Accepted products: 1497337 (monthly, variant 2332239, $3.99/month) and 1497359 (yearly, variant 2332267, $19.99/year). Licence keys on for both.
