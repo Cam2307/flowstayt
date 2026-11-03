@@ -1,5 +1,5 @@
 import { getState, normalizeDomain, todayKey, sha256 } from './common.js';
-import { isPro } from './licensing.js';
+import { isPro, getLicense, activate, deactivate, LS } from './licensing.js';
 const $ = id => document.getElementById(id);
 const DAY = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -25,7 +25,12 @@ async function render() {
     li.append(b); $('alList').append(li);
   });
   $('proBox').classList.toggle('locked', !pro); $('upsell').hidden = pro;
-  $('devPro').checked = pro;
+  const lic = await getLicense();
+  $('licKey').hidden = $('activate').hidden = !!lic; $('deactivate').hidden = !lic;
+  if (!$('licStatus').dataset.err) $('licStatus').textContent = !lic ? 'Free version. Have a key? Paste it above.'
+    : pro ? 'Pro active (key ending ' + lic.key.slice(-4) + ').' : 'License ' + (lic.status || 'invalid') + '. Pro is locked.';
+  $('licStatus').dataset.err = '';
+  $('buyYearly').hidden = !LS.checkout.yearly;
   $('schedOn').checked = s.schedule.enabled; $('start').value = s.schedule.start; $('end').value = s.schedule.end;
   $('days').innerHTML = DAY.map((n, i) => `<label><input type="checkbox" value="${i}" ${s.schedule.days.includes(i) ? 'checked' : ''}> ${n}</label>`).join('');
 }
@@ -52,9 +57,16 @@ $('setPw').onclick = async () => {
   await chrome.storage.local.set({ passwordHash: v ? await sha256(v) : '' });
   $('newPw').value = ''; alert(v ? 'Password set' : 'Password removed');
 };
-$('devPro').onchange = async e => { await chrome.storage.local.set({ devPro: e.target.checked }); render(); };
-// TODO(payments): open the ExtensionPay payment page or Lemon Squeezy checkout here.
-$('buy').onclick = () => alert('Payments not wired up yet. See src/licensing.js.');
+$('buyMonthly').onclick = () => window.open(LS.checkout.monthly, '_blank');
+$('buyYearly').onclick = () => window.open(LS.checkout.yearly, '_blank');
+$('activate').onclick = async () => {
+  $('activate').disabled = true; $('licStatus').textContent = 'Checking...';
+  const r = await activate($('licKey').value); $('activate').disabled = false;
+  if (!r.ok) { $('licStatus').textContent = r.error; $('licStatus').dataset.err = '1'; }
+  else $('licKey').value = '';
+  render();
+};
+$('deactivate').onclick = async () => { await deactivate(); render(); };
 
 (async () => {
   const s = await getState();

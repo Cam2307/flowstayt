@@ -1,5 +1,5 @@
 import { getState, inSchedule, todayKey } from './common.js';
-import { isPro } from './licensing.js';
+import { isPro, revalidate } from './licensing.js';
 
 // Decide whether blocking should be active right now, then rewrite the dynamic rules.
 // Calls are queued so two overlapping updates (e.g. a storage change plus an alarm) can't both
@@ -36,15 +36,17 @@ async function applyRulesNow() {
 
 chrome.runtime.onInstalled.addListener(async () => {
   chrome.alarms.create('tick', { periodInMinutes: 1 }); // re-evaluates schedules
+  chrome.alarms.create('license', { periodInMinutes: 1440 }); // daily licence revalidation
   await applyRules();
 });
 chrome.runtime.onStartup.addListener(applyRules);
 chrome.alarms.onAlarm.addListener(async a => {
+  if (a.name === 'license') return revalidate();
   if (a.name === 'focusEnd') await chrome.storage.local.set({ focusUntil: 0 });
   await applyRules();
 });
 chrome.storage.onChanged.addListener((c, area) => {
-  if (area === 'local' && (c.blocklist || c.schedule || c.focusUntil || c.devPro || c.allowlistMode || c.allowlist)) applyRules();
+  if (area === 'local' && (c.blocklist || c.schedule || c.focusUntil || c.license || c.allowlistMode || c.allowlist)) applyRules();
   if (area === 'local' && SYNC_KEYS.some(k => c[k])) pushSync();
   if (area === 'sync') pullSync();
 });

@@ -1,4 +1,5 @@
 import { getState, normalizeDomain, todayKey } from './common.js';
+import { isPro } from './licensing.js';
 const $ = id => document.getElementById(id);
 async function render() {
   const s = await getState();
@@ -8,6 +9,7 @@ async function render() {
     // Removing is done from the options page so the Pro password lock can protect it.
     $('list').append(li);
   }
+  $('upgrade').hidden = await isPro();
   $('today').textContent = s.stats[todayKey()] || 0;
   $('focus').textContent = s.focusUntil > Date.now() ? 'Focusing until ' + new Date(s.focusUntil).toLocaleTimeString() : '';
 }
