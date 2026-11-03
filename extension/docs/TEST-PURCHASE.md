@@ -1,6 +1,6 @@
 # Test purchase: confirm Pro unlocks (about 5 minutes)
 
-> Naming: the product is now **FlowStayt**. The GitHub repo, local folders, zip name, site URL (cam2307.github.io/focus-blocker) and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
+> Naming: the product is now **FlowStayt**. The GitHub repo is now `Cam2307/flowstayt` (site: https://cam2307.github.io/flowstayt/). The local folder, zip name and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
 
 Checked by API on 3 Nov 2026: the store's API key is in **test mode** and there are **no test licence keys or orders yet**. Lemon Squeezy cannot create a licence key directly by API; keys are only created by an order, so this needs one test checkout. Test mode never charges a real card.
 

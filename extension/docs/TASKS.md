@@ -1,6 +1,6 @@
 # Launch checklist
 
-> Naming: the product is now **FlowStayt**. The GitHub repo, local folders, zip name, site URL (cam2307.github.io/focus-blocker) and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
+> Naming: the product is now **FlowStayt**. The GitHub repo is now `Cam2307/flowstayt` (site: https://cam2307.github.io/flowstayt/). The local folder, zip name and Lemon Squeezy subdomain (focus-blocker.lemonsqueezy.com) intentionally stay `focus-blocker` for now; checkout links and licence checks are unchanged.
 
 ## Done
 - [x] MV3 project skeleton, no build step
@@ -31,7 +31,7 @@
 - [ ] Branding/name check for trademark clashes
 - [x] Store listing text (`store/listing.md`), 440x280 and 1400x560 promo tiles
 - [x] Screenshots (1280x800) x5 in `store/`
-- [x] Landing page with privacy policy URL and pricing (`index.html` at the repository root; https://cam2307.github.io/focus-blocker/ once Pages is enabled)
+- [x] Landing page with privacy policy URL and pricing (`index.html` at the repository root; https://cam2307.github.io/flowstayt/ once Pages is enabled)
 - [x] Privacy policy (`privacy.html`, effective 2 November 2026)
 - [x] Terms (`terms.html`, effective 2 November 2026)
 - [ ] Chrome Web Store developer account ($5) and submission

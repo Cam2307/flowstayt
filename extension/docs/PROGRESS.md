@@ -60,3 +60,6 @@ Built v0.1.0: full free tier (blocklist, redirect blocking, focus timer, stats),
 - Lemon Squeezy instance name now "FlowStayt (Chrome)"; storage keys, store/product checks and checkout URLs unchanged (existing licences keep working).
 - Repo, folders, zip name, site URL and LS subdomain stay focus-blocker for now. TASKS: Cameron to rename the LS store/products.
 - Promo tiles, store screenshots and site/assets screenshots regenerated with the new UI and name.
+
+## 3 Nov 2026, 15:20 SAST: repo renamed to Cam2307/flowstayt
+- All site/repo URLs now https://cam2307.github.io/flowstayt/ and https://github.com/Cam2307/flowstayt (site OG URL/image, store listing homepage/support/privacy, README, docs). LS checkout links, storage keys and local folder unchanged. No extension files changed (still v0.2.2).
